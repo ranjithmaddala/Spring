@@ -26,4 +26,10 @@ public class ExcelController {
             throws Exception {
         return service.upload(file, numberOfSheet);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<XlEntity>> getAllsUsers(){
+    	List<XlEntity> entities = service.getAllUsers();
+    	return new ResponseEntity<List<XlEntity>>(entities, HttpStatus.OK);
+    }
 }
