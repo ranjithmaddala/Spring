@@ -35,27 +35,14 @@ public class ExcelService {
     }
     
     public String addUsers(Sheet sheet) {
-    	 System.out.println("=> " + sheet.getSheetName());
-//        DataFormatter dataFormatter = new DataFormatter();
-//        Iterator<Row> rowIterator = sheet.rowIterator();
- 
-//         while (rowIterator.hasNext()) {
-//             Row row = rowIterator.next();
-//             // Now let's iterate over the columns of the current row
-//             Iterator<Cell> cellIterator = row.cellIterator();
-//             while (cellIterator.hasNext()) {
-//                 Cell cell = cellIterator.next();
-//                 String cellValue = dataFormatter.formatCellValue(cell);
-//                 System.out.print(cellValue + "\t");
-//             }
-//             System.out.println();
-//         }
-         
     	
          XlEntity xl = new XlEntity();
          for(int i =1;i<sheet.getLastRowNum()+1;i++) {
         	 xl.setFirst_name(sheet.getRow(i).getCell(1).toString());
-        	 xl.setLast_name(sheet.getRow(i).getCell(2).toString());
+        	  if(sheet.getRow(i).getCell(2) == null)
+        		 xl.setLast_name(null);
+        	 else
+        		 xl.setLast_name(sheet.getRow(i).getCell(2).toString());
         	 xl.setId((int)sheet.getRow(i).getCell(0).getNumericCellValue());
         	 xlRepo.save(xl);
          }
