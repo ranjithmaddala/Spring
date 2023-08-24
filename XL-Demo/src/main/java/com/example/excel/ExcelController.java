@@ -1,23 +1,29 @@
 package com.example.excel;
 
-import com.example.service.ExcelService;
-
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.dto.XlDTO;
+import com.example.entity.XlEntity;
+import com.example.service.ExcelService;
+
 
 @RestController
 @RequestMapping("/file")
 public class ExcelController {
-    private final ExcelService service;
-
-    public ExcelController(ExcelService service) {
-        this.service = service;
-    }
+	@Autowired
+    private ExcelService service;
 
     @PostMapping("/upload")
     public String upload(
@@ -26,10 +32,26 @@ public class ExcelController {
             throws Exception {
         return service.upload(file, numberOfSheet);
     }
-
+    
     @GetMapping("/all")
     public ResponseEntity<List<XlEntity>> getAllsUsers(){
     	List<XlEntity> entities = service.getAllUsers();
     	return new ResponseEntity<List<XlEntity>>(entities, HttpStatus.OK);
+    }
+    
+    @GetMapping("/all/{id}")
+    public ResponseEntity<XlDTO> getUserById(@PathVariable Integer id) throws Exception{
+    	XlDTO dto = service.getUserById(id);
+    	return new ResponseEntity<XlDTO>(dto, HttpStatus.OK);
+    }
+    
+    @PutMapping("/update")
+    public String updateUser(@RequestParam Integer id, @RequestParam String firstName) {
+    	return service.updateUSer(id, firstName);
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Integer id) {
+    	return service.deleteUser(id);
     }
 }
