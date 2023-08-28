@@ -36,12 +36,21 @@ public class ExcelService {
     public String addUsers(Sheet sheet) {
          XlEntity xl = new XlEntity();
          for(int i =1;i<sheet.getLastRowNum()+1;i++) {
-        	 xl.setFirst_name(sheet.getRow(i).getCell(1).toString());
-        	 if(sheet.getRow(i).getCell(2) == null)
-        		 xl.setLast_name(null);
-        	 else
-        		 xl.setLast_name(sheet.getRow(i).getCell(2).toString());
-        	 xl.setId((int)sheet.getRow(i).getCell(0).getNumericCellValue());
+        	 xl.setEntityId((int)sheet.getRow(i).getCell(0).getNumericCellValue());
+        	 xl.setCustomerId((int)sheet.getRow(i).getCell(1).getNumericCellValue());
+        	 xl.setServiceGroupId(sheet.getRow(i).getCell(2).toString());
+        	 xl.setServiceIdAccess(sheet.getRow(i).getCell(3).toString());
+        	 xl.setServiceIdCatv(sheet.getRow(i).getCell(4).toString());
+        	 xl.setServiceIdEquipment(sheet.getRow(i).getCell(5).toString());
+        	 xl.setPaid(sheet.getRow(i).getCell(6).toString());
+        	 xl.setServiceIdDtv(sheet.getRow(i).getCell(7).toString());
+        	 xl.setServiceIdStb(sheet.getRow(i).getCell(8).toString());
+        	 xl.setSerialStb(sheet.getRow(i).getCell(9).toString());
+        	 xl.setSerialSc(sheet.getRow(i).getCell(10).toString());
+        	 xl.setEntitlements(sheet.getRow(i).getCell(11).toString());
+        	 xl.setServiceIdInt(sheet.getRow(i).getCell(12).toString());
+        	 xl.setServiceIdEmta(sheet.getRow(i).getCell(13).toString());
+        	 xl.setSerialEmta(sheet.getRow(i).getCell(14).toString());
         	 xlRepo.save(xl);
          }
 
@@ -52,27 +61,6 @@ public class ExcelService {
     	List<XlEntity> entities = xlRepo.findAll();
     	
     	return entities;
-    }
-    
-    public XlDTO getUserById(Integer id) throws Exception {
-    	Optional<XlEntity> entity = xlRepo.findById(id);
-    	if(entity.isEmpty())
-    		throw new Exception("user not found with id");
-    	XlDTO dto = new XlDTO();
-    	dto.setFirst_name(entity.get().getFirst_name());
-    	dto.setLast_name(entity.get().getLast_name());
-    	dto.setId(entity.get().getId());
-    	return dto;
-    }
-    
-    public String updateUSer(Integer id, String firstName) {
-    	XlEntity xl = new XlEntity();
-    	xl.setFirst_name(firstName);
-    	xl.setId(id);
-    	xl.setLast_name(xl.getLast_name());
-    	xlRepo.save(xl);
-    	
-    	return "successfully updated";
     }
     
     public String deleteUser(Integer id) {

@@ -39,17 +39,6 @@ public class ExcelController {
     	return new ResponseEntity<List<XlEntity>>(entities, HttpStatus.OK);
     }
     
-    @GetMapping("/all/{id}")
-    public ResponseEntity<XlDTO> getUserById(@PathVariable Integer id) throws Exception{
-    	XlDTO dto = service.getUserById(id);
-    	return new ResponseEntity<XlDTO>(dto, HttpStatus.OK);
-    }
-    
-    @PutMapping("/update")
-    public String updateUser(@RequestParam Integer id, @RequestParam String firstName) {
-    	return service.updateUSer(id, firstName);
-    }
-    
     @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable Integer id) {
     	return service.deleteUser(id);
